@@ -13,9 +13,6 @@ from ols import config
 
 from road_core_eval.constants import (
     DEFAULT_CONFIG_FILE,
-    DEFAULT_INPUT_DIR,
-    DEFAULT_QNA_FILE,
-    DEFAULT_RESULT_DIR,
     EVAL_MODES,
     EVAL_THRESHOLD,
     INSCOPE_MODELS,
@@ -43,13 +40,14 @@ class ResponseEvaluation:
 
         self._validate_args()
         self._load_config_and_rag()  # Set global config
-        self._input_dir, self._result_dir = self._set_directories()
-
+        self._data_src = eval_args.eval_data_src
+        self._result_dir = eval_args.eval_out_dir
+        os.makedirs(self._result_dir, exist_ok=True)
         self._scorer = ResponseScore(self._args)
 
         # Load data
         with open(
-            os.path.join(self._input_dir, DEFAULT_QNA_FILE), encoding="utf-8"
+            self._data_src, encoding="utf-8"
         ) as qna_f:
             self._qa_pool_json = json.load(qna_f)["evaluation"]
 
@@ -85,17 +83,6 @@ class ResponseEvaluation:
             config.rag_index  # pylint: disable=W0104
             if config.rag_index is None:
                 raise Exception("No valid rag index for ols_rag mode")
-
-    def _set_directories(self):
-        """Set input/output directories."""
-        eval_dir = os.path.dirname(__file__)
-        input_dir = os.path.join(eval_dir, DEFAULT_INPUT_DIR)
-
-        result_dir = os.path.join(
-            (self._args.eval_out_dir or eval_dir), DEFAULT_RESULT_DIR
-        )
-        os.makedirs(result_dir, exist_ok=True)
-        return input_dir, result_dir
 
     def _load_qna_pool_parquet(self):
         """Load QnA pool from parquet file."""
