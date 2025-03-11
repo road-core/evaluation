@@ -52,6 +52,7 @@ license = {text = "Apache"}
 
 [project.scripts]
 evaluate = "road_core_eval.evaluate:main"
+query_rag = "road_core_eval.query_rag:main"
 
 # The following section is needed only for torch[cpu] variant on Linux,
 # because this variant need to be downloaded from external link, not from
