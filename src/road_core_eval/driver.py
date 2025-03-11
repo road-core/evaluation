@@ -4,7 +4,11 @@ import argparse
 import os
 from httpx import Client
 from road_core_eval.response_evaluation import ResponseEvaluation
-from road_core_eval.constants import DEFAULT_INPUT_DIR, DEFAULT_RESULT_DIR, DEFAULT_QNA_FILE
+from road_core_eval.constants import (
+    DEFAULT_INPUT_DIR,
+    DEFAULT_RESULT_DIR,
+    DEFAULT_QNA_FILE,
+)
 
 
 def main():

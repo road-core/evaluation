@@ -46,9 +46,7 @@ class ResponseEvaluation:
         self._scorer = ResponseScore(self._args)
 
         # Load data
-        with open(
-            self._data_src, encoding="utf-8"
-        ) as qna_f:
+        with open(self._data_src, encoding="utf-8") as qna_f:
             self._qa_pool_json = json.load(qna_f)["evaluation"]
 
         self._qa_pool_df = self._load_qna_pool_parquet()
