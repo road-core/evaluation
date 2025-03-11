@@ -19,7 +19,7 @@ def main():
         nargs="+",
         default=["watsonx+ibm/granite-3-8b-instruct"],
         type=str,
-        help="Identifier for Provider/Model to be used for model eval.",
+        help="List of Provider/Model identifiers to be used for model eval.",
     )
     parser.add_argument(
         "--judge_provider",
