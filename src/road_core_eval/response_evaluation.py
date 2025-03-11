@@ -43,7 +43,9 @@ class ResponseEvaluation:
         self._data_src = eval_args.eval_data_src
         self._result_dir = eval_args.eval_out_dir
         os.makedirs(self._result_dir, exist_ok=True)
-        self._scorer = ResponseScore(self._args)
+        self._scorer = ResponseScore(
+            self._args.eval_metrics, self._args.judge_provider, self._args.judge_model
+        )
 
         # Load data
         with open(self._data_src, encoding="utf-8") as qna_f:

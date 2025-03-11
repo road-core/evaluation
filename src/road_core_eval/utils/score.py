@@ -15,7 +15,7 @@ from .similarity_score_llm import AnswerSimilarityScore
 class ResponseScore:
     """Calculate response score."""
 
-    def __init__(self, args):
+    def __init__(self, eval_metrics: list, judge_provider: str, judge_model: str):
         """Initialize."""
         self._embedding_model = HuggingFaceEmbedding(
             "sentence-transformers/all-mpnet-base-v2"
@@ -25,14 +25,12 @@ class ResponseScore:
         self._relevancy_scorer = None
         self._llm_similarity_scorer = None
 
-        judge_llm_required = set(args.eval_metrics).intersection(
-            set(LLM_BASED_EVALS.keys())
-        )
+        judge_llm_required = set(eval_metrics).intersection(set(LLM_BASED_EVALS.keys()))
         if judge_llm_required:
             # Judge provider & model need to be configured correctly in config yaml file.
-            provider_config = config.config.llm_providers.providers[args.judge_provider]
+            provider_config = config.config.llm_providers.providers[judge_provider]
             judge_llm = VANILLA_MODEL[provider_config.type](
-                args.judge_model, provider_config
+                judge_model, provider_config
             ).load()
             if "answer_relevancy" in judge_llm_required:
                 self._relevancy_scorer = AnswerRelevancyScore(
