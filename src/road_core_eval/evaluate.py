@@ -56,7 +56,7 @@ def main():
         choices=["with_rag", "without_rag"],
         default="with_rag",
         type=str,
-        help="Scenario for which responses will be evaluated.",
+        help="List of scenarios for which responses will be evaluated.",
     )
     parser.add_argument(
         "--qna_pool_file",
