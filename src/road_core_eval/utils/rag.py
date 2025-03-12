@@ -7,7 +7,7 @@ from ols.src.prompts.prompt_generator import GeneratePrompt
 from ols.utils.token_handler import TokenHandler
 
 
-def retrieve_rag_chunks(query: str, model: str, model_config: ModelConfig):
+def retrieve_rag_chunks(query: str, model: str, model_config: ModelConfig) -> list[str]:
     """Retrieve rag chunks."""
     token_handler = TokenHandler()
     temp_prompt, temp_prompt_input = GeneratePrompt(

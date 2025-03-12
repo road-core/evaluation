@@ -15,7 +15,7 @@ from .rag import retrieve_rag_chunks
 
 def get_model_response(
     query: str, provider: str, model: str, mode: str, api_client=None
-):
+) -> str:
     """Get response depending upon the mode."""
     if mode == "ols":
         response = api_client.post(

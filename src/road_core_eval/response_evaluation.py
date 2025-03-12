@@ -55,7 +55,7 @@ class ResponseEvaluation:
 
         self._qa_pool_df = self._load_qna_pool_parquet()
 
-    def _validate_args(self):
+    def _validate_args(self) -> None:
         """Validate key arguments."""
         invalid_provider_model = set(self._args.eval_provider_model_id) - set(
             INSCOPE_MODELS.keys()
@@ -69,7 +69,7 @@ class ResponseEvaluation:
         if len(invalid_modes) > 0:
             raise ValueError(f"Invalid eval modes: {invalid_modes}")
 
-    def _load_config_and_rag(self):
+    def _load_config_and_rag(self) -> None:
         """Load config and RAG."""
         if (len(set(self._args.eval_modes) - {"ols"}) > 0) or (
             len(set(self._args.eval_metrics).intersection(set(LLM_BASED_EVALS.keys())))
@@ -86,7 +86,7 @@ class ResponseEvaluation:
             if config.rag_index is None:
                 raise Exception("No valid rag index for ols_rag mode")
 
-    def _load_qna_pool_parquet(self):
+    def _load_qna_pool_parquet(self) -> DataFrame:
         """Load QnA pool from parquet file."""
         qna_pool_df = DataFrame()
         if self._args.qna_pool_file is not None:
@@ -101,7 +101,7 @@ class ResponseEvaluation:
             qna_pool_df["in_use"] = True
         return qna_pool_df
 
-    def _restructure_qna_pool_json(self, provider_model_id: str):
+    def _restructure_qna_pool_json(self, provider_model_id: str) -> DataFrame:
         """Restructure qna pool json data to dataframe."""
         qna_pool_dict = defaultdict(list)
 
@@ -136,7 +136,7 @@ class ResponseEvaluation:
 
         return DataFrame.from_dict(qna_pool_dict)
 
-    def _get_inscope_qna(self, provider_model_id: str):
+    def _get_inscope_qna(self, provider_model_id: str) -> DataFrame:
         """Get QnAs which are inscope for evaluation."""
         qna_pool_df = self._restructure_qna_pool_json(provider_model_id)
 
@@ -157,7 +157,7 @@ class ResponseEvaluation:
         eval_mode: str,
         retry_attempts: int = MAX_RETRY_ATTEMPTS,
         time_to_breath: int = TIME_TO_BREATH,
-    ):
+    ) -> str:
         """Get api response for a question/query."""
         # try to retrieve response even when model is not responding reliably
         # in 100% cases
@@ -192,7 +192,7 @@ class ResponseEvaluation:
         provider: str,
         model: str,
         eval_mode: str,
-    ):
+    ) -> str:
         """Get llm response from the stored data, if available."""
         if recent_resp_df is not None:
             try:
@@ -209,7 +209,7 @@ class ResponseEvaluation:
 
     def _get_model_response(
         self, qna_pool_df: DataFrame, provider_model_id: str, eval_mode: str
-    ):
+    ) -> DataFrame:
         """Get model responses for all questions."""
         temp_resp_file = (
             f"{self._result_dir}/{eval_mode}_"
@@ -237,7 +237,7 @@ class ResponseEvaluation:
         qna_pool_df.to_csv(temp_resp_file, index=False)
         return qna_pool_df
 
-    def _get_evaluation_score(self, qna_pool_df: DataFrame):
+    def _get_evaluation_score(self, qna_pool_df: DataFrame) -> DataFrame:
         """Get response evaluation score."""
         print("Getting evaluation scores...")
         # Default scores
@@ -262,7 +262,7 @@ class ResponseEvaluation:
         )
         return qna_pool_df.dropna(axis=1, how="all")
 
-    def _get_response_with_score(self):
+    def _get_response_with_score(self) -> DataFrame:
         """Get responses with scores."""
         result_dfs = []
         for provider_model_id in self._args.eval_provider_model_id:
@@ -292,7 +292,7 @@ class ResponseEvaluation:
         return concat(result_dfs)
 
     @staticmethod
-    def _condense_eval_df(result_df: DataFrame):
+    def _condense_eval_df(result_df: DataFrame) -> DataFrame:
         """Put all models' result as columns."""
         result_df = result_df.pivot(
             index=[
@@ -309,7 +309,7 @@ class ResponseEvaluation:
         result_df.columns = ["_".join(col) for col in result_df.columns]
         return result_df
 
-    def validate_response(self):
+    def validate_response(self) -> bool:
         """Validate LLM response."""
         consistency_success_flag = True
         result_df = self._get_response_with_score()
@@ -351,7 +351,7 @@ class ResponseEvaluation:
 
         return consistency_success_flag
 
-    def evaluate_models(self):
+    def evaluate_models(self) -> None:
         """Evaluate models against groundtruth answer."""
         print("Running model evaluation using groundtruth...")
         result_df = self._get_response_with_score()
