@@ -5,6 +5,8 @@ import os
 from collections import defaultdict
 from datetime import UTC, datetime
 from time import sleep
+from httpx import Client
+from argparse import Namespace
 
 from pandas import DataFrame, concat, read_csv, read_parquet
 from tqdm import tqdm
@@ -32,7 +34,7 @@ tqdm.pandas()
 class ResponseEvaluation:
     """Evaluate LLM response."""
 
-    def __init__(self, eval_args, api_client):
+    def __init__(self, eval_args: Namespace, api_client: Client):
         """Initialize."""
         print(f"Response evaluation arguments: {eval_args}")
         self._args = eval_args
@@ -99,7 +101,7 @@ class ResponseEvaluation:
             qna_pool_df["in_use"] = True
         return qna_pool_df
 
-    def _restructure_qna_pool_json(self, provider_model_id):
+    def _restructure_qna_pool_json(self, provider_model_id: str):
         """Restructure qna pool json data to dataframe."""
         qna_pool_dict = defaultdict(list)
 
@@ -134,7 +136,7 @@ class ResponseEvaluation:
 
         return DataFrame.from_dict(qna_pool_dict)
 
-    def _get_inscope_qna(self, provider_model_id):
+    def _get_inscope_qna(self, provider_model_id: str):
         """Get QnAs which are inscope for evaluation."""
         qna_pool_df = self._restructure_qna_pool_json(provider_model_id)
 
@@ -149,12 +151,12 @@ class ResponseEvaluation:
 
     def _get_api_response(
         self,
-        question,
-        provider,
-        model,
-        eval_mode,
-        retry_attempts=MAX_RETRY_ATTEMPTS,
-        time_to_breath=TIME_TO_BREATH,
+        question: str,
+        provider: str,
+        model: str,
+        eval_mode: str,
+        retry_attempts: int = MAX_RETRY_ATTEMPTS,
+        time_to_breath: int = TIME_TO_BREATH,
     ):
         """Get api response for a question/query."""
         # try to retrieve response even when model is not responding reliably
@@ -184,7 +186,12 @@ class ResponseEvaluation:
         return response
 
     def _get_recent_response(
-        self, question, recent_resp_df, provider, model, eval_mode
+        self,
+        question: str,
+        recent_resp_df: DataFrame | None,
+        provider: str,
+        model: str,
+        eval_mode: str,
     ):
         """Get llm response from the stored data, if available."""
         if recent_resp_df is not None:
@@ -200,7 +207,9 @@ class ResponseEvaluation:
         # Recent response is not found, call api to get response
         return self._get_api_response(question, provider, model, eval_mode)
 
-    def _get_model_response(self, qna_pool_df, provider_model_id, eval_mode):
+    def _get_model_response(
+        self, qna_pool_df: DataFrame, provider_model_id: str, eval_mode: str
+    ):
         """Get model responses for all questions."""
         temp_resp_file = (
             f"{self._result_dir}/{eval_mode}_"
@@ -228,7 +237,7 @@ class ResponseEvaluation:
         qna_pool_df.to_csv(temp_resp_file, index=False)
         return qna_pool_df
 
-    def _get_evaluation_score(self, qna_pool_df):
+    def _get_evaluation_score(self, qna_pool_df: DataFrame):
         """Get response evaluation score."""
         print("Getting evaluation scores...")
         # Default scores
@@ -283,7 +292,7 @@ class ResponseEvaluation:
         return concat(result_dfs)
 
     @staticmethod
-    def _condense_eval_df(result_df):
+    def _condense_eval_df(result_df: DataFrame):
         """Put all models' result as columns."""
         result_df = result_df.pivot(
             index=[

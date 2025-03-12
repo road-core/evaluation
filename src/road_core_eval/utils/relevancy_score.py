@@ -23,10 +23,10 @@ class AnswerRelevancyScore:
 
     def get_score(
         self,
-        question,
-        response,
-        retry_attempts=MAX_RETRY_ATTEMPTS,
-        time_to_breath=TIME_TO_BREATH,
+        question: str,
+        response: str,
+        retry_attempts: int = MAX_RETRY_ATTEMPTS,
+        time_to_breath: int = TIME_TO_BREATH,
     ):
         """Calculate relevancy score."""
         # Generate relevant questions.
