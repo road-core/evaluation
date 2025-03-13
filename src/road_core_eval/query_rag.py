@@ -28,7 +28,7 @@ QNA_QUERIES = [
 ]
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Utility script for querying RAG database"
     )
@@ -116,3 +116,7 @@ if __name__ == "__main__":
     )
     os.makedirs(result_dir, exist_ok=True)
     result_df.to_csv(os.path.join(result_dir, "retrieved_chunks.csv"), index=False)
+
+
+if __name__ == "__main__":
+    main()

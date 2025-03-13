@@ -1,9 +1,9 @@
 # Evaluation Result
 
 **Notes**
-- QnAs should `not` be used for model training or tuning. This is created only for evaluation purpose.
+- QnAs must `not` be used for model training or tuning. This is created only for evaluation purpose.
 - QnAs were generated from OCP docs by LLMs. It is possible that some of the questions/answers are not entirely correct. We are constantly trying to verify both Questions & Answers manually. If you find any QnA pair to be modified or removed, please create a PR.
-- [Instruction to run eval script](../../README.md)
+- [Instruction to run eval script](../README.md)
 
 ## Result
 - Last Execution date: `2024-11-30`
@@ -12,7 +12,7 @@
     - (openai) gpt-4o-mini (Model Version: 2024-07-18)
     - (azure) gpt-4o-mini (Model Version: 2024-07-18, API Version: 2024-02-15-preview)
 - Judge provider/model (LLM based eval): (openai) gpt-4o-mini
-- QnA evaluation dataset: [QnAs from OCP doc](../ocp_doc_qna-edited.parquet)
+- QnA evaluation dataset: [QnAs from OCP doc](../eval_data/ocp_doc_qna-edited.parquet)
 
 ### Scores
 Please look at below box-plots to have an idea about overall score for QnAs. `Ideal result`: Box should be as condense as possible and near to right side (close to 1).

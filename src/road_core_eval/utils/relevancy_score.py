@@ -8,7 +8,7 @@ from langchain_core.prompts.prompt import PromptTemplate
 from scipy.spatial.distance import cosine
 
 from road_core_eval.constants import MAX_RETRY_ATTEMPTS, N_QUESTIONS, TIME_TO_BREATH
-from .prompts import ANSWER_RELEVANCY_PROMPT
+from road_core_eval.utils.prompts import ANSWER_RELEVANCY_PROMPT
 
 
 class AnswerRelevancyScore:
@@ -23,10 +23,10 @@ class AnswerRelevancyScore:
 
     def get_score(
         self,
-        question,
-        response,
-        retry_attempts=MAX_RETRY_ATTEMPTS,
-        time_to_breath=TIME_TO_BREATH,
+        question: str,
+        response: str,
+        retry_attempts: int = MAX_RETRY_ATTEMPTS,
+        time_to_breath: int = TIME_TO_BREATH,
     ):
         """Calculate relevancy score."""
         # Generate relevant questions.
