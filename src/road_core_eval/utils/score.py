@@ -7,9 +7,9 @@ from scipy.spatial.distance import cosine, euclidean
 from ols import config
 
 from road_core_eval.constants import LLM_BASED_EVALS
-from .models import VANILLA_MODEL
-from .relevancy_score import AnswerRelevancyScore
-from .similarity_score_llm import AnswerSimilarityScore
+from road_core_eval.utils.models import VANILLA_MODEL
+from road_core_eval.utils.relevancy_score import AnswerRelevancyScore
+from road_core_eval.utils.similarity_score_llm import AnswerSimilarityScore
 
 
 class ResponseScore:

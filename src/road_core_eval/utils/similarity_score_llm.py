@@ -5,7 +5,7 @@ from time import sleep
 from langchain_core.prompts.prompt import PromptTemplate
 
 from road_core_eval.constants import MAX_RETRY_ATTEMPTS, TIME_TO_BREATH
-from .prompts import ANSWER_SIMILARITY_PROMPT
+from road_core_eval.utils.prompts import ANSWER_SIMILARITY_PROMPT
 
 
 class AnswerSimilarityScore:
