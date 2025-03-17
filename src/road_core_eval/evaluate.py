@@ -1,21 +1,25 @@
 """Driver for evaluation."""
 
 import argparse
-import sys
-
+import os
 from httpx import Client
 from road_core_eval.response_evaluation import ResponseEvaluation
+from road_core_eval.constants import (
+    DEFAULT_INPUT_DIR,
+    DEFAULT_RESULT_DIR,
+    DEFAULT_QNA_FILE,
+)
 
 
-def _args_parser(args):
-    """Arguments parser."""
+def main():
+    """Evaluate response."""
     parser = argparse.ArgumentParser(description="Response validation module.")
     parser.add_argument(
         "--eval_provider_model_id",
         nargs="+",
         default=["watsonx+ibm/granite-3-8b-instruct"],
         type=str,
-        help="Identifier for Provider/Model to be used for model eval.",
+        help="List of Provider/Model identifiers to be used for model eval.",
     )
     parser.add_argument(
         "--judge_provider",
@@ -30,8 +34,14 @@ def _args_parser(args):
         help="Judge model; required for LLM based evaluation",
     )
     parser.add_argument(
+        "--eval_data_src",
+        default=os.path.join(DEFAULT_INPUT_DIR, DEFAULT_QNA_FILE),
+        type=str,
+        help="Source of evaluation data.",
+    )
+    parser.add_argument(
         "--eval_out_dir",
-        default=None,
+        default=DEFAULT_RESULT_DIR,
         type=str,
         help="Result destination.",
     )
@@ -46,7 +56,7 @@ def _args_parser(args):
         choices=["with_rag", "without_rag"],
         default="with_rag",
         type=str,
-        help="Scenario for which responses will be evaluated.",
+        help="List of scenarios for which responses will be evaluated.",
     )
     parser.add_argument(
         "--qna_pool_file",
@@ -85,13 +95,7 @@ def _args_parser(args):
         type=str,
         help="Path to text file with API token (applicable when deployed on cluster)",
     )
-    return parser.parse_args(args)
-
-
-def main():
-    """Evaluate response."""
-    args = _args_parser(sys.argv[1:])
-
+    args = parser.parse_args()
     client = Client(base_url=args.eval_api_url, verify=False)  # noqa: S501
 
     if "localhost" not in args.eval_api_url:

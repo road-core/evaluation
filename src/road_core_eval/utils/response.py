@@ -8,12 +8,14 @@ from ols.constants import GenericLLMParameters
 from ols.src.prompts.prompt_generator import GeneratePrompt
 
 from road_core_eval.constants import REST_API_TIMEOUT
-from .models import MODEL_OLS_PARAM, VANILLA_MODEL
-from .prompts import BASIC_PROMPT
-from .rag import retrieve_rag_chunks
+from road_core_eval.utils.models import MODEL_OLS_PARAM, VANILLA_MODEL
+from road_core_eval.utils.prompts import BASIC_PROMPT
+from road_core_eval.utils.rag import retrieve_rag_chunks
 
 
-def get_model_response(query, provider, model, mode, api_client=None):
+def get_model_response(
+    query: str, provider: str, model: str, mode: str, api_client=None
+) -> str:
     """Get response depending upon the mode."""
     if mode == "ols":
         response = api_client.post(
