@@ -1,6 +1,6 @@
 """Response for evaluation."""
 
-from langchain.chains.llm import LLMChain
+from langchain.globals import set_debug
 from langchain.prompts import PromptTemplate
 
 from ols import config
@@ -11,6 +11,8 @@ from road_core_eval.constants import REST_API_TIMEOUT
 from road_core_eval.utils.models import MODEL_OLS_PARAM, VANILLA_MODEL
 from road_core_eval.utils.prompts import BASIC_PROMPT
 from road_core_eval.utils.rag import retrieve_rag_chunks
+
+set_debug(True)
 
 
 def get_model_response(
@@ -53,5 +55,5 @@ def get_model_response(
             query, rag_chunks, [], BASIC_PROMPT
         ).generate_prompt(model)
 
-    llm_chain = LLMChain(llm=llm, prompt=prompt, verbose=True)
-    return llm_chain(inputs=prompt_input)["text"].strip()
+    llm_chain = prompt | llm
+    return llm_chain.invoke(input=prompt_input).content
