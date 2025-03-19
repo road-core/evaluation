@@ -36,5 +36,11 @@ Here is the real answer:
 You are grading the following predicted answer:
 {response}
 What grade do you give from 0 to 10, where 0 is the lowest (very low similarity) and 10 is the highest (very high similarity)?
-Only give the score value.
+Consider the following criteria when grading:
+1. Semantic similarity: How closely the predicted answer matches the meaning of the real answer.
+2. Factual accuracy: Whether the predicted answer is factually correct.
+3. Relevance: Whether the predicted answer is relevant to the question.
+4. Completeness: Whether the predicted answer covers all key points of the real answer.
+
+Only give the score value as final response.
 """
