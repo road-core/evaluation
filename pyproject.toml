@@ -9,7 +9,6 @@ target-version = "py311"
 lint.pydocstyle.convention = "google"
 line-length = 100
 
-
 dependencies = [
     "pdm==2.21.0",
     "pandas==2.1.4",
@@ -23,25 +22,15 @@ dependencies = [
     "faiss-cpu==1.9.0.post1",
     "sentence-transformers==3.1.1",
     "openai==1.54.3",
-    "pyarrow==18.0.0",
     "ibm-generative-ai==3.0.0",
-    "ibm-cos-sdk==2.13.6",
     "langchain-openai==0.2.9",
     "azure-identity==1.18.0",
     "langchain-community==0.3.5",
     "huggingface_hub==0.26.1",
     "ibm-watsonx-ai==1.1.25",
-    "urllib3==2.2.3",
-    "nltk==3.9.1",
-    "aiohttp==3.11.10",
-    "scikit-learn==1.5.2",
     "tqdm==4.67.1",
-    "findpython==0.6.2",
-    "filelock==3.16.1",
-    "ffmpy==0.4.0",
     "llama-index-vector-stores-postgres>=0.4.0",
     "rouge-score==0.1.2",
-    "fastparquet==2024.5.0",
     "torch==2.6.0+cpu",
     "road-core @ git+https://github.com/road-core/service.git",
     "matplotlib>=3.10.1",
@@ -66,7 +55,6 @@ name = "torch"
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
-
 
 [tool.pdm]
 distribution = true
