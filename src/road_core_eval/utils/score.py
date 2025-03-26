@@ -12,7 +12,7 @@ from road_core_eval.utils.relevancy_score import AnswerRelevancyScore
 from road_core_eval.utils.similarity_score_llm import AnswerSimilarityScore
 
 
-class ResponseScore:
+class ResponseScore:  # pylint: disable=R0903
     """Calculate response score."""
 
     def __init__(self, eval_metrics: list, judge_provider: str, judge_model: str):
@@ -39,7 +39,9 @@ class ResponseScore:
             if "answer_similarity_llm" in judge_llm_required:
                 self._llm_similarity_scorer = AnswerSimilarityScore(judge_llm)
 
-    def calculate_scores(self, query: str, answer: str, response: str) -> tuple:
+    def calculate_scores(  # pylint: disable=R0914
+        self, query: str, answer: str, response: str
+    ) -> tuple:
         """Calculate different similarity scores for two strings."""
         res_vec = self._embedding_model.get_text_embedding(response)
         ans_vec = self._embedding_model.get_text_embedding(answer)

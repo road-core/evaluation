@@ -6,6 +6,7 @@ from langchain.prompts import PromptTemplate
 from ols import config
 from ols.constants import GenericLLMParameters
 from ols.src.prompts.prompt_generator import GeneratePrompt
+from requests import HTTPError
 
 from road_core_eval.constants import REST_API_TIMEOUT
 from road_core_eval.utils.models import MODEL_OLS_PARAM, VANILLA_MODEL
@@ -30,7 +31,7 @@ def get_model_response(
             timeout=REST_API_TIMEOUT,
         )
         if response.status_code != 200:
-            raise Exception(response)
+            raise HTTPError(response=response)
         return response.json()["response"].strip()
 
     prompt = PromptTemplate.from_template("{query}")

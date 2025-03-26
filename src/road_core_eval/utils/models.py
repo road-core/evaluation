@@ -7,6 +7,7 @@ from ols.src.llms.providers.openai import OpenAI
 from ols.src.llms.providers.watsonx import Watsonx
 
 
+# pylint: disable=R0903
 class OpenAIVanilla(OpenAI):
     """OpenAI provider."""
 
@@ -30,6 +31,7 @@ class OpenAIVanilla(OpenAI):
         }
 
 
+# pylint: disable=R0903
 class AzureOpenAIVanilla(AzureOpenAI):
     """Azure OpenAI provider."""
 
@@ -68,6 +70,7 @@ class AzureOpenAIVanilla(AzureOpenAI):
         return default_parameters
 
 
+# pylint: disable=R0903
 class WatsonxVanilla(Watsonx):
     """Watsonx provider."""
 

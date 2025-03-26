@@ -11,7 +11,7 @@ from road_core_eval.constants import MAX_RETRY_ATTEMPTS, N_QUESTIONS, TIME_TO_BR
 from road_core_eval.utils.prompts import ANSWER_RELEVANCY_PROMPT
 
 
-class AnswerRelevancyScore:
+class AnswerRelevancyScore:  # pylint: disable=R0903
     """Calculate response/answer relevancy score."""
 
     def __init__(self, judge_llm, embedding_model):
@@ -53,7 +53,7 @@ class AnswerRelevancyScore:
                 gen_questions = "\n".join(gen_questions)
                 break
 
-            except Exception as e:
+            except Exception as e:  # pylint: disable=W0718
                 if retry_counter == retry_attempts - 1:
                     print(f"error_answer_relevancy: {e}")
                     score, valid_flag, gen_questions = None, None, None
