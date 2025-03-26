@@ -23,6 +23,8 @@ install-tools: ## Install required utilities/tools
 	pdm run black --version
 	# check that correct Ruff version is installed
 	pdm run ruff --version
+	# check that Pytest is installed
+	pdm run pytest --version
 
 pdm-lock-check: ## Check that the pdm.lock file is in a good shape
 	pdm lock --check
@@ -57,6 +59,9 @@ verify-packages-completeness:	requirements.txt ## Verify that requirements.txt f
 
 distribution-archives: ## Generate distribution archives to be uploaded into Python registry
 	pdm run python -m build
+
+test: install-deps-test ## Execute tests with Pytest
+	pdm run pytest tests
 
 help: ## Show this help screen
 	@echo 'Usage: make <OPTIONS> ... <TARGETS>'
