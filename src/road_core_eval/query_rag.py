@@ -29,6 +29,7 @@ QNA_QUERIES = [
 
 
 def main():
+    """Query RAG vector database"""
     parser = argparse.ArgumentParser(
         description="Utility script for querying RAG database"
     )

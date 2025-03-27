@@ -5,8 +5,8 @@ import os
 from collections import defaultdict
 from datetime import UTC, datetime
 from time import sleep
-from httpx import Client
 from argparse import Namespace
+from httpx import Client
 
 from pandas import DataFrame, concat, read_csv, read_parquet
 from tqdm import tqdm
@@ -30,7 +30,7 @@ from road_core_eval.utils.score import ResponseScore
 tqdm.pandas()
 
 
-# TODO: OLS-712 Enrichment of Q+A pairs to contain questions with attachments
+# TODO: OLS-712 Enrichment of Q+A pairs to contain questions with attachments pylint: disable=W0511
 class ResponseEvaluation:
     """Evaluate LLM response."""
 
@@ -84,7 +84,7 @@ class ResponseEvaluation:
             # load rag index
             config.rag_index  # pylint: disable=W0104
             if config.rag_index is None:
-                raise Exception("No valid rag index for ols_rag mode")
+                raise ValueError("No valid rag index for ols_rag mode")
 
     def _load_qna_pool_parquet(self) -> DataFrame:
         """Load QnA pool from parquet file."""
@@ -149,6 +149,7 @@ class ResponseEvaluation:
         qna_pool_df = qna_pool_df[qna_pool_df.in_use]
         return qna_pool_df.reset_index(drop=True).drop(columns="in_use")
 
+    # pylint: disable=R0913,R0917
     def _get_api_response(
         self,
         question: str,
@@ -173,7 +174,7 @@ class ResponseEvaluation:
                     self._api_client,
                 )
                 break
-            except Exception:
+            except Exception:  # pylint: disable=W0718
                 if retry_counter == retry_attempts - 1:
                     raise
             # model is not realiable if it's overloaded, so take some time between requests
@@ -185,6 +186,7 @@ class ResponseEvaluation:
         )
         return response
 
+    # pylint: disable=R0913,R0917
     def _get_recent_response(
         self,
         question: str,
@@ -274,7 +276,7 @@ class ResponseEvaluation:
                         f"{provider_model_id.replace('/', '-')}.csv"
                     )
                     print("Temp score file exists. Proceeding without calculation.")
-                except Exception:
+                except Exception:  # pylint: disable=W0718
                     print("Temp score doesn't exist. Proceeding with calculation.")
                     qna_pool_df = self._get_inscope_qna(provider_model_id)
                     qna_pool_df = self._get_model_response(

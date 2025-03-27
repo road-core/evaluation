@@ -7,6 +7,7 @@ BASIC_PROMPT = """
 You are a helpful assistant.
 """
 
+# pylint: disable=C0301
 # Below is inspired by both ragas & langchain internal/example prompts.
 ANSWER_RELEVANCY_PROMPT = """You are an helpful assistant. Your task is to analyze answer and come up with questions from the given answer.
 Given the following answer delimited by three backticks please generate {num_questions} questions.
