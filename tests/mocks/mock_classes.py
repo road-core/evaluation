@@ -1,3 +1,5 @@
+"""Mocks for various classes for use during testing."""
+
 from dataclasses import dataclass
 from langchain_core.runnables import Runnable
 
@@ -12,5 +14,5 @@ class MockResult:
 class MockLLM(Runnable):
     """Mock LLM class"""
 
-    def invoke(self, input, config=None, **kwargs):
+    def invoke(self, input, config=None, **kwargs):  # pylint: disable=W0622
         return MockResult("5")

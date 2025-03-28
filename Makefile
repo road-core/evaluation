@@ -49,7 +49,7 @@ format: install-deps-test ## Format the code into unified format
 verify:	install-deps-test ## Verify the code using various linters
 	pdm run black . --check
 	pdm run ruff check . --per-file-ignores=tests/*:S101 --per-file-ignores=scripts/*:S101
-	pdm run pylint src
+	pdm run pylint src tests
 
 requirements.txt:	pyproject.toml pdm.lock ## Generate requirements.txt file containing hashes for all non-devel packages
 	pdm export --prod --format requirements --output requirements.txt
