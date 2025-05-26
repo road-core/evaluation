@@ -1,6 +1,6 @@
 """Driver for evaluation."""
 
-import argparse
+from argparse import Namespace, ArgumentParser
 import os
 from httpx import Client
 from road_core_eval.response_evaluation import ResponseEvaluation
@@ -11,9 +11,10 @@ from road_core_eval.constants import (
 )
 
 
-def main():
-    """Evaluate response."""
-    parser = argparse.ArgumentParser(description="Response validation module.")
+def parse_args() -> Namespace:
+    """Parse CLI arguments for response evaluation tool."""
+
+    parser = ArgumentParser(description="Response validation module.")
     parser.add_argument(
         "--eval_provider_model_id",
         nargs="+",
@@ -95,7 +96,13 @@ def main():
         type=str,
         help="Path to text file with API token (applicable when deployed on cluster)",
     )
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    """Evaluate response."""
+    args = parse_args()
+
     client = Client(base_url=args.eval_api_url, verify=False)  # noqa: S501
 
     if "localhost" not in args.eval_api_url:
